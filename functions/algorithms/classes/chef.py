@@ -1,12 +1,14 @@
 import datetime
 
 class Chef(object):
-	def __init__(self, interval = None):
-		self.id = id(self)
+	def __init__(self, idn = None, prep_time = None):
+		self.idn = ''
 		self.name = ''
 		self.q = []
-		self.wait = datetime.timedelta(minutes = 0)
-		self.interval = datetime.timedelta(minutes = 5)
+		self.prep_time = datetime.timedelta(minutes = 1)
 
-		if interval is not None:
-			self.interval = datetime.timedelta(minutes = interval)
+		if idn is not None:
+			self.idn = idn
+
+		if prep_time is not None:
+			self.prep_time = datetime.timedelta(minutes = prep_time)

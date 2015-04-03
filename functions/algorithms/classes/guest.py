@@ -2,7 +2,7 @@ import datetime
 
 class Guest(object):
 	def __init__(self):
-		self.id = id(self)
+		self.id = ''
 		self.name = ''
 		self.location = ''
 		self.distance = 0
