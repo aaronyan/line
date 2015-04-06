@@ -16,8 +16,26 @@ def calc_guest_wait(current_guest, restaurant):
 			front_wait = chef.q[i].wait
 			print "iteration =", i, "and front_wait =", front_wait
 
-			# Check all combinations if a guest can fit inside chef.q
-			# Add guest to chef.q in special location; otherwise, end of chef.q
+			if i == 0:
+				if current_guest.arrive + chef.prep_time < front_wait or \
+				   (current_guest.arrive == datetime.timedelta(minutes = 1) and \
+				   	current_guest.arrive < front_wait):
+					print "guest found an opening in the front!"
+					restaurant.chefs[j].q.insert(i, current_guest)
+					current_guest.wait = current_guest.arrive
+					return current_guest.wait
+				elif len(chef.q) != 1:
+					back_wait = chef.q[i+1].wait
+					if front_wait + chef.prep_time < back_wait:
+						print "guest found an opening in the second to last!"
+						restaurant.chefs[j].q.insert(i+1, current_guest)
+						current_guest.wait = front_wait + chef.prep_time
+						return current_guest.wait
+			else:
+				print "guest found an opening in the back!"
+				restaurant.chefs[j].q.insert(i+1, current_guest)
+				current_guest.wait = front_wait + chef.prep_time
+				return current_guest.wait
 
 
 if __name__ == "__main__":
