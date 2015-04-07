@@ -31,6 +31,22 @@ def calc_guest_wait(current_guest, restaurant):
 						restaurant.chefs[j].q.insert(i+1, current_guest)
 						current_guest.wait = front_wait + chef.prep_time
 						return current_guest.wait
+			elif i > 0 and i < (len(chef.q)-1):
+				print "back_wait =", back_wait
+				back_wait = chef.q[i+1].wait
+				if front_wait + chef.prep_time < back_wait:
+					print "guest found an opening!"
+					restaurant.chefs[j].q.insert(i+1, current_guest)
+					current_guest.wait = front_wait + chef.prep_time
+					return current_guest.wait
+				elif current_guest.arrive + chef.prep_time < front_wait:
+					print "guest found an opening in the second to last!"
+					print current_guest.arrive + chef.prep_time, front_wait
+					restaurant.chefs[j].q.insert(i, current_guest)
+					current_guest.wait = current_guest.arrive + chef.prep_time
+					return current_guest.wait
+				else:
+					continue
 			else:
 				print "guest found an opening in the back!"
 				restaurant.chefs[j].q.insert(i+1, current_guest)
