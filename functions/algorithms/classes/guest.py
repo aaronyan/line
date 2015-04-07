@@ -10,3 +10,4 @@ class Guest(object):
 		self.wait = datetime.timedelta(minutes = 0)
 		self.request = datetime.datetime(2015,1,1,0,0,0)
 		self.q_num = 0
+		self.served = False

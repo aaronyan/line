@@ -53,6 +53,12 @@ def calc_guest_wait(current_guest, restaurant):
 				current_guest.wait = front_wait + chef.prep_time
 				return current_guest.wait
 
+def increment_interval(restaurant):
+	for i, chef in enumerate(restaurant.chefs):
+		for j, guest in enumerate(chef.q):
+			if not restaurant.chefs[i].q[j].served:
+				restaurant.chefs[i].q[j].wait -= restaurant.chefs[i].prep_time
+				restaurant.chefs[i].q[j].arrive -= restaurant.chefs[i].prep_time
 
 if __name__ == "__main__":
 	# Create restaurant, chef, and customer objects
@@ -74,6 +80,7 @@ if __name__ == "__main__":
 	print [k.wait.seconds/60 for k in chef.q]
 
 	counter = 2
+	increment_interval(restaurant)
 
 	# Serve all the guests
 	while counter != 0:
@@ -93,8 +100,7 @@ if __name__ == "__main__":
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
 
-			# Calculate wait time for customer
-			# Add to chef.q
+			increment_interval(restaurant)
 
 			future_guests.pop(0)
 		print [j.name for j in chef.q]
