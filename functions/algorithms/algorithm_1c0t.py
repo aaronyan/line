@@ -60,6 +60,18 @@ def increment_interval(restaurant):
 				restaurant.chefs[i].q[j].wait -= restaurant.chefs[i].prep_time
 				restaurant.chefs[i].q[j].arrive -= restaurant.chefs[i].prep_time
 
+def clean_up_chef_q(restaurant):
+	index_remove = []
+	for i, chef in enumerate(restaurant.chefs):
+		for j, guest in enumerate(chef.q):
+			print "wait time for", restaurant.chefs[i].q[j].name, "=", restaurant.chefs[i].q[j].wait
+			if restaurant.chefs[i].q[j].wait == datetime.timedelta(minutes = 0):
+				restaurant.chefs[i].q[j].served =  True
+				index_remove.append(j)
+		for k in sorted(index_remove, key=int, reverse=True):
+			restaurant.chefs[i].q.pop(k)
+	print "index_remove =", index_remove
+
 if __name__ == "__main__":
 	# Create restaurant, chef, and customer objects
 	restaurant = restaurant.Restaurant()
@@ -81,6 +93,7 @@ if __name__ == "__main__":
 
 	counter = 2
 	increment_interval(restaurant)
+	clean_up_chef_q(restaurant)
 
 	# Serve all the guests
 	while counter != 0:
@@ -101,7 +114,8 @@ if __name__ == "__main__":
 			print [k.wait.seconds/60 for k in chef.q]
 
 			increment_interval(restaurant)
-
+			clean_up_chef_q(restaurant)
 			future_guests.pop(0)
+
 		print [j.name for j in chef.q]
 		print [j.wait for j in chef.q]
