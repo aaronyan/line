@@ -11,3 +11,5 @@ class Guest(object):
 		self.request = datetime.datetime(2015,1,1,0,0,0)
 		self.q_num = 0
 		self.served = False
+		self.orders = 1
+		self.prep = 1
