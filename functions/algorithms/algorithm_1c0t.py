@@ -14,10 +14,12 @@ def calc_guest_wait(current_guest, restaurant):
 
 		for i, guest in enumerate(chef.q):
 			front_wait = chef.q[i].wait
+			front_orders = chef.q[i].orders
+			current_orders = current_guest.orders
 			print "iteration =", i, "and front_wait =", front_wait
 
 			if i == 0:
-				if current_guest.arrive + chef.prep_time < front_wait or \
+				if current_guest.arrive + chef.prep_time*current_orders < front_wait or \
 				   (current_guest.arrive == datetime.timedelta(minutes = 1) and \
 				   	current_guest.arrive < front_wait):
 					print "guest found an opening in the front!"
@@ -26,31 +28,31 @@ def calc_guest_wait(current_guest, restaurant):
 					return current_guest.wait
 				elif len(chef.q) != 1:
 					back_wait = chef.q[i+1].wait
-					if front_wait + chef.prep_time < back_wait:
+					if front_wait + chef.prep_time*current_orders < back_wait:
 						print "guest found an opening in the second to last!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
-						current_guest.wait = front_wait + chef.prep_time
+						current_guest.wait = front_wait + chef.prep_time*front_orders
 						return current_guest.wait
 			elif i > 0 and i < (len(chef.q)-1):
 				print "back_wait =", back_wait
 				back_wait = chef.q[i+1].wait
-				if front_wait + chef.prep_time < back_wait:
+				if front_wait + chef.prep_time*current_orders < back_wait:
 					print "guest found an opening!"
 					restaurant.chefs[j].q.insert(i+1, current_guest)
-					current_guest.wait = front_wait + chef.prep_time
+					current_guest.wait = front_wait + chef.prep_time*front_orders
 					return current_guest.wait
-				elif current_guest.arrive + chef.prep_time < front_wait:
+				elif current_guest.arrive + chef.prep_time*current_orders < front_wait:
 					print "guest found an opening in the second to last!"
 					print current_guest.arrive + chef.prep_time, front_wait
 					restaurant.chefs[j].q.insert(i, current_guest)
-					current_guest.wait = current_guest.arrive + chef.prep_time
+					current_guest.wait = current_guest.arrive + chef.prep_time*current_orders
 					return current_guest.wait
 				else:
 					continue
 			else:
 				print "guest found an opening in the back!"
 				restaurant.chefs[j].q.insert(i+1, current_guest)
-				current_guest.wait = front_wait + chef.prep_time
+				current_guest.wait = front_wait + chef.prep_time*front_orders
 				return current_guest.wait
 
 def increment_interval(restaurant):
@@ -112,6 +114,7 @@ if __name__ == "__main__":
 			print "calculated wait time =", current_guest_wait
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
+			print [k.prep for k in chef.q]
 
 			increment_interval(restaurant)
 			clean_up_chef_q(restaurant)
@@ -120,5 +123,6 @@ if __name__ == "__main__":
 			print "\nNO MORE"
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
+			print [k.prep for k in chef.q]
 			increment_interval(restaurant)
 			clean_up_chef_q(restaurant)
