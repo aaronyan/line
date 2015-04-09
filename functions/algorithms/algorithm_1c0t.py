@@ -91,7 +91,7 @@ if __name__ == "__main__":
 	print [k.name for k in chef.q]
 	print [k.wait.seconds/60 for k in chef.q]
 
-	counter = 2
+	counter = 10
 	increment_interval(restaurant)
 	clean_up_chef_q(restaurant)
 
@@ -105,17 +105,20 @@ if __name__ == "__main__":
 		
 		if future_guests:
 			current_guest = future_guests[0]
-
+			
 			print "\nNEW GUEST"
 			print current_guest.name, current_guest.arrive, current_guest.wait
 			current_guest_wait = calc_guest_wait(current_guest, restaurant)
-			# print "calculated wait time =", current_guest_wait
+			print "calculated wait time =", current_guest_wait
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
 
 			increment_interval(restaurant)
 			clean_up_chef_q(restaurant)
 			future_guests.pop(0)
-
-		print [j.name for j in chef.q]
-		print [j.wait for j in chef.q]
+		else:
+			print "\nNO MORE"
+			print [k.name for k in chef.q]
+			print [k.wait.seconds/60 for k in chef.q]
+			increment_interval(restaurant)
+			clean_up_chef_q(restaurant)
