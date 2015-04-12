@@ -80,7 +80,7 @@ if __name__ == "__main__":
 	chef = chef.Chef(idn = "aaron")
 	restaurant.chefs.append(chef)
 
-	future_guests = sg.create_guests(n=5)
+	future_guests = sg.create_guests(mode = 'case_1')
 	restaurant.confirmed_guests = [g for g in future_guests]
 
 	# Add the first guest to the chef queue
