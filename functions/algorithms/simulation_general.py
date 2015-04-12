@@ -1,16 +1,26 @@
 import datetime
 from classes.guest import Guest
+import string
+import numpy as np
 
 '''
 TEST FUNCTIONS
 '''
 
-def create_guests(n = None):
-	# Pre-defined start_time and etas
-	start_time = datetime.time(0,0,0)
-	etas = [6, 3, 1, 1, 1]
-	names = ['a','b','c','d','e',]
-	orders = [2, 1, 1, 1, 1]
+def create_guests(mode = None, n = None):
+
+	if n != None:
+		d = dict.fromkeys(string.ascii_lowercase, 0)
+		etas = [np.random.randint(1,6) for i in range(n)]
+		names = [i for i in d]
+		orders = [np.random.randint(1,6) for i in range(n)]
+
+	# Pre-defined etas
+	if mode == 'case_1':
+		etas = [6, 3, 1, 1, 1]
+		names = ['a','b','c','d','e',]
+		orders = [2, 1, 1, 1, 1]
+		n = 5
 
 	arrivals = []
 	for i in range(n):
