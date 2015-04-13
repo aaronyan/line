@@ -3,6 +3,7 @@ import simulation_general as sg
 import datetime
 import numpy as np
 
+# Caclulate guest wait time
 def calc_guest_wait(current_guest, restaurant):
 	for j,chef in enumerate(restaurant.chefs):
 		# If the chef's queue is empty, the current guest wait time = arrive
@@ -12,12 +13,14 @@ def calc_guest_wait(current_guest, restaurant):
 
 		q_inspect = [i for i in chef.q]
 
+		# Check openings in chef queue
 		for i, guest in enumerate(chef.q):
 			front_wait = chef.q[i].wait
 			front_orders = chef.q[i].orders
 			current_orders = current_guest.orders
 			print "iteration =", i, "and front_wait =", front_wait
 
+			# If the queue is only one person long or looking at the first person in the queue
 			if i == 0:
 				if current_guest.arrive + chef.prep_time*current_orders < front_wait or \
 				   (current_guest.arrive == datetime.timedelta(minutes = 1) and \
@@ -33,6 +36,7 @@ def calc_guest_wait(current_guest, restaurant):
 						restaurant.chefs[j].q.insert(i+1, current_guest)
 						current_guest.wait = front_wait + chef.prep_time*front_orders
 						return current_guest.wait
+			# If the queue is anyone not the first or last person in the queue
 			elif i > 0 and i < (len(chef.q)-1):
 				print "back_wait =", back_wait
 				back_wait = chef.q[i+1].wait
@@ -49,6 +53,7 @@ def calc_guest_wait(current_guest, restaurant):
 					return current_guest.wait
 				else:
 					continue
+			# If the person is the last person in the queue and/or cannot find an opening in the queue
 			else:
 				print "guest found an opening in the back!"
 				restaurant.chefs[j].q.insert(i+1, current_guest)
