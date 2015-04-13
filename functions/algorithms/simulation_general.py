@@ -30,6 +30,6 @@ def create_guests(mode = None, n = None):
 		new_guest.name = names[i]
 		new_guest.id = 'gst'+str(i)
 		new_guest.orders = orders[i]
-		new_guest.prep = orders[i]*1
+		new_guest.prep = datetime.timedelta(minutes=orders[i]*1)
 		arrivals.append(new_guest)
 	return arrivals

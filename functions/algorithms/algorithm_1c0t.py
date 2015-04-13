@@ -114,7 +114,7 @@ if __name__ == "__main__":
 			print "calculated wait time =", current_guest_wait
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
-			print [k.prep for k in chef.q]
+			print [k.prep.seconds/60 for k in chef.q]
 
 			increment_interval(restaurant)
 			clean_up_chef_q(restaurant)
@@ -123,6 +123,6 @@ if __name__ == "__main__":
 			print "\nNO MORE"
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
-			print [k.prep for k in chef.q]
+			print [k.prep.seconds/60 for k in chef.q]
 			increment_interval(restaurant)
 			clean_up_chef_q(restaurant)
