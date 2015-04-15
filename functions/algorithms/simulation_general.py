@@ -17,7 +17,7 @@ def create_guests(mode = None, n = None):
 
 	# Pre-defined etas
 	if mode == 'case_1':
-		etas = [6, 3, 1, 1, 1]
+		etas = [6, 3, 1, 5, 1]
 		names = ['a','b','c','d','e',]
 		orders = [2, 1, 1, 1, 1]
 		n = 5
