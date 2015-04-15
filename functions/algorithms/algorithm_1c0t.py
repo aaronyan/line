@@ -16,12 +16,9 @@ def calc_guest_wait(current_guest, restaurant):
 		# Check openings in chef queue
 		for i, guest in enumerate(chef.q):
 			front_wait = chef.q[i].wait
-			front_orders = chef.q[i].orders
-			front_min = front_wait - front_orders*chef.prep_time
+			front_min = front_wait - chef.q[i].orders*chef.prep_time
 			current_arrive = current_guest.arrive
-			current_orders = current_guest.orders
 			current_prep = current_guest.orders*chef.prep_time
-			print "iteration =", i, "and front_wait =", front_wait
 
 			# If the queue is only one person long or looking at the first person in the queue
 			if i == 0:
@@ -33,8 +30,7 @@ def calc_guest_wait(current_guest, restaurant):
 					# If the queue is two people long
 				elif len(chef.q) != 1:
 					back_wait = chef.q[i+1].wait
-					back_orders = chef.q[i+1].orders
-					back_min = back_wait - back_orders*chef.prep_time
+					back_min = back_wait - chef.q[i+1].orders*chef.prep_time
 					if current_prep <= back_min and front_wait + current_prep <= back_min and current_arrive <= back_min:
 						print "guest found an opening second in line!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
@@ -43,8 +39,7 @@ def calc_guest_wait(current_guest, restaurant):
 			# If the queue is anyone not the first or last person in the queue
 			elif i > 0 and i < (len(chef.q)-1):
 				back_wait = chef.q[i+1].wait
-				back_orders = chef.q[i+1].orders
-				back_min = back_wait - back_orders*chef.prep_time
+				back_min = back_wait - chef.q[i+1].orders*chef.prep_time
 				if current_prep <= back_min and front_wait + current_prep <= back_min and current_arrive <= back_min:
 						print "guest found an opening second in line with queue > 2!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
