@@ -49,7 +49,10 @@ def calc_guest_wait(current_guest, restaurant):
 			else:
 				print "guest found an opening in the back!"
 				restaurant.chefs[j].q.insert(i+1, current_guest)
-				current_guest.wait = current_arrive
+				if current_arrive <= front_wait:
+					current_guest.wait = front_wait + current_prep
+				else:
+					current_guest.wait = current_arrive
 				return current_guest.wait
 
 def increment_interval(restaurant):
@@ -90,7 +93,7 @@ if __name__ == "__main__":
 	print [k.name for k in chef.q]
 	print [k.wait.seconds/60 for k in chef.q]
 
-	counter = 10
+	counter = 5
 	increment_interval(restaurant)
 	clean_up_chef_q(restaurant)
 
