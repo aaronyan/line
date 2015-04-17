@@ -74,6 +74,17 @@ def clean_up_chef_q(restaurant):
 			restaurant.chefs[i].q.pop(k)
 	print "index_remove =", index_remove
 
+def no_algorithm_time(future_guests, restaurant):
+	
+	# add minutes to wait time to normalize based on index
+	# order the future guests by arrival  
+	# simulate guests without the queueing algorithm
+	#   simulate means don't increment time
+	#   change wait times based off the queue order
+	#   determine longest wait time to later compare with the simulation
+	#   calcualte average wait time
+	pass
+
 if __name__ == "__main__":
 	# Create restaurant, chef, and customer objects
 	restaurant = restaurant.Restaurant()
@@ -107,7 +118,7 @@ if __name__ == "__main__":
 		
 		if future_guests:
 			current_guest = future_guests[0]
-			
+
 			print "\nNEW GUEST"
 			print current_guest.name, current_guest.arrive, current_guest.wait
 			current_guest_wait = calc_guest_wait(current_guest, restaurant)
