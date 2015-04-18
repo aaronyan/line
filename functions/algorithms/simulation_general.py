@@ -33,3 +33,13 @@ def create_guests(mode = None, n = None):
 		new_guest.prep = datetime.timedelta(minutes=orders[i]*1)
 		arrivals.append(new_guest)
 	return arrivals
+
+def copy_guests(A, B):
+	for i in A:
+		new_guest = Guest()
+		new_guest.arrive = i.arrive
+		new_guest.name = i.name
+		new_guest.id = i.id
+		new_guest.orders = i.orders
+		new_guest.prep = i.prep
+		B.append(new_guest)
