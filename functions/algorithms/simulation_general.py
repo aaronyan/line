@@ -43,3 +43,17 @@ def copy_guests(A, B):
 		new_guest.orders = i.orders
 		new_guest.prep = i.prep
 		B.append(new_guest)
+
+def merge(a, b):
+	if len(a)*len(b) == 0:
+		return a + b
+
+	v = (a[0].wait < b[0].wait and a or b).pop(0)
+	return [v] + merge(a, b)
+
+def mergesort(future_guests):
+	if len(future_guests) <= 1:
+		return future_guests
+
+	m = len(future_guests)/2
+	return merge(mergesort(future_guests[:m]), mergesort(future_guests[m:]))
