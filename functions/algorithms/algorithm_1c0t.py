@@ -77,13 +77,22 @@ def clean_up_chef_q(restaurant):
 def no_algorithm_time(future_guests, restaurant):
 	
 	# add minutes to wait time to normalize based on index
-	# order the future guests by arrival  
+	for i, guest in enumerate(future_guests):
+		guest.wait = guest.arrive + datetime.timedelta(minutes=i)
+	print [g.wait for g in future_guests]
+
+	# order the future guests by arrival 
+	future_guests = sg.mergesort(future_guests)
+	print [g.wait for g in future_guests]
+	print [g.orders for g in future_guests]
+
+	while future_guests:
+		print future_guests.pop(0).wait
+
 	# simulate guests without the queueing algorithm
 	#   simulate means don't increment time
 	#   change wait times based off the queue order
 	#   determine longest wait time to later compare with the simulation
-	#   calcualte average wait time
-	pass
 
 if __name__ == "__main__":
 	# Create restaurant, chef, and customer objects
@@ -92,34 +101,35 @@ if __name__ == "__main__":
 	restaurant.chefs.append(chef)
 
 	future_guests = sg.create_guests(mode = 'case_1')
+	copy_guests = []
+	sg.copy_guests(future_guests, copy_guests)
 	restaurant.confirmed_guests = [g for g in future_guests]
 
 	# Add the first guest to the chef queue
+	counter = 1
 	current_guest = future_guests[0]
 	future_guests.pop(0)
 	chef.q.append(current_guest)
 	current_guest.wait = current_guest.arrive
-	print "\nNEW GUEST"
+	print "\ncounter = ", counter
+	print "NEW GUEST"
 	print current_guest.name, current_guest.arrive, current_guest.wait
 	print [k.name for k in chef.q]
 	print [k.wait.seconds/60 for k in chef.q]
 
-	counter = 5
+
 	increment_interval(restaurant)
 	clean_up_chef_q(restaurant)
 
 	# Serve all the guests
-	while counter != 0:
-		counter -= 1
+	while chef.q:
+		counter += 1
 
-		if not chef.q:
-			print "\nchef.q is empty"
-			break
-		
 		if future_guests:
 			current_guest = future_guests[0]
 
-			print "\nNEW GUEST"
+			print "\ncounter = ", counter
+			print "NEW GUEST"
 			print current_guest.name, current_guest.arrive, current_guest.wait
 			current_guest_wait = calc_guest_wait(current_guest, restaurant)
 			print "calculated wait time =", current_guest_wait
@@ -131,9 +141,22 @@ if __name__ == "__main__":
 			clean_up_chef_q(restaurant)
 			future_guests.pop(0)
 		else:
-			print "\nNO MORE"
+			print "\ncounter = ", counter
+			print "NO MORE"
 			print [k.name for k in chef.q]
 			print [k.wait.seconds/60 for k in chef.q]
 			print [k.prep.seconds/60 for k in chef.q]
 			increment_interval(restaurant)
 			clean_up_chef_q(restaurant)
+
+	counter += 1
+	print "\ncounter = ", counter
+
+	# Compare with the no_algorithm
+	print '\n'
+	no_algorithm_time(copy_guests, restaurant)
+
+	future_guests = sg.create_guests(mode = 'case_1')
+	no_algorithm_time(future_guests, restaurant)
+
+
