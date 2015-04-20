@@ -94,17 +94,7 @@ def no_algorithm_time(future_guests, restaurant):
 	#   change wait times based off the queue order
 	#   determine longest wait time to later compare with the simulation
 
-if __name__ == "__main__":
-	# Create restaurant, chef, and customer objects
-	restaurant = restaurant.Restaurant()
-	chef = chef.Chef(idn = "aaron")
-	restaurant.chefs.append(chef)
-
-	future_guests = sg.create_guests(mode = 'case_1')
-	copy_guests = []
-	sg.copy_guests(future_guests, copy_guests)
-	restaurant.confirmed_guests = [g for g in future_guests]
-
+def algorithm_time(future_guests, restaurant):
 	# Add the first guest to the chef queue
 	counter = 1
 	current_guest = future_guests[0]
@@ -152,11 +142,22 @@ if __name__ == "__main__":
 	counter += 1
 	print "\ncounter = ", counter
 
+if __name__ == "__main__":
+	# Create restaurant, chef, and customer objects
+	restaurant = restaurant.Restaurant()
+	chef = chef.Chef(idn = "aaron")
+	restaurant.chefs.append(chef)
+
+	future_guests = sg.create_guests(mode = 'case_1')
+	copy_guests = []
+	sg.copy_guests(future_guests, copy_guests)
+	restaurant.confirmed_guests = [g for g in future_guests]
+
+	# Compare with the no_algorithm
+	algorithm_time(future_guests, restaurant)
+	
 	# Compare with the no_algorithm
 	print '\n'
 	no_algorithm_time(copy_guests, restaurant)
-
-	future_guests = sg.create_guests(mode = 'case_1')
-	no_algorithm_time(future_guests, restaurant)
 
 
