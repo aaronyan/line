@@ -48,7 +48,7 @@ def merge(a, b):
 	if len(a)*len(b) == 0:
 		return a + b
 
-	v = (a[0].wait < b[0].wait and a or b).pop(0)
+	v = (a[0].arrive < b[0].arrive and a or b).pop(0)
 	return [v] + merge(a, b)
 
 def mergesort(future_guests):

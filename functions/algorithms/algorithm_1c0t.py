@@ -66,33 +66,24 @@ def clean_up_chef_q(restaurant):
 	index_remove = []
 	for i, chef in enumerate(restaurant.chefs):
 		for j, guest in enumerate(chef.q):
-			print "wait time for", restaurant.chefs[i].q[j].name, "=", restaurant.chefs[i].q[j].wait
+			# print "wait time for", restaurant.chefs[i].q[j].name, "=", restaurant.chefs[i].q[j].wait
 			if restaurant.chefs[i].q[j].wait == datetime.timedelta(minutes = 0):
 				restaurant.chefs[i].q[j].served =  True
 				index_remove.append(j)
 		for k in sorted(index_remove, key=int, reverse=True):
 			restaurant.chefs[i].q.pop(k)
-	print "index_remove =", index_remove
+	# print "index_remove =", index_remove
 
 def no_algorithm_time(future_guests, restaurant):
 	
 	# add minutes to wait time to normalize based on index
 	for i, guest in enumerate(future_guests):
-		guest.wait = guest.arrive + datetime.timedelta(minutes=i)
-	print [g.wait for g in future_guests]
+		guest.arrive = guest.arrive + datetime.timedelta(minutes=i)
 
 	# order the future guests by arrival 
 	future_guests = sg.mergesort(future_guests)
-	print [g.wait for g in future_guests]
-	print [g.orders for g in future_guests]
 
-	while future_guests:
-		print future_guests.pop(0).wait
-
-	# simulate guests without the queueing algorithm
-	#   simulate means don't increment time
-	#   change wait times based off the queue order
-	#   determine longest wait time to later compare with the simulation
+	
 
 def algorithm_time(future_guests, restaurant):
 	# Add the first guest to the chef queue
