@@ -9,21 +9,25 @@ def calc_guest_wait(current_guest, restaurant):
 		# If the chef's queue is empty, the current guest wait time = arrive
 		if chef.q == []:
 			restaurant.chefs[0].q.append(current_guest)
-			return current_guest.arrive
+			if current_guest.arrive > current_guest.orders*chef.prep_time:
+				return current_guest.arrive
+			else:
+				return current_guest.orders*chef.prep_time
 
 		q_inspect = [i for i in chef.q]
 
 		# Check openings in chef queue
 		for i, guest in enumerate(chef.q):
-			front_wait = chef.q[i].wait
-			front_min = front_wait - chef.q[i].orders*chef.prep_time
+			front_wait = guest.wait
+			front_min = front_wait - guest.orders*chef.prep_time
 			current_arrive = current_guest.arrive
 			current_prep = current_guest.orders*chef.prep_time
+			print "checking guest",guest.name
 
 			# If the queue is only one person long or looking at the first person in the queue
 			if i == 0:
 				if current_prep <= front_min and current_arrive <= front_min:
-					# print "guest found an opening in the front!"
+					print "guest found an opening in the front!"
 					restaurant.chefs[j].q.insert(i, current_guest)
 					current_guest.wait = current_guest.arrive
 					return current_guest.wait
@@ -32,28 +36,37 @@ def calc_guest_wait(current_guest, restaurant):
 					back_wait = chef.q[i+1].wait
 					back_min = back_wait - chef.q[i+1].orders*chef.prep_time
 					if current_prep <= back_min and front_wait + current_prep <= back_min and current_arrive <= back_min:
-						# print "guest found an opening second in line!"
+						print "guest found an opening second in line!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
 						current_guest.wait = front_wait + current_prep
 						return current_guest.wait
+				else:
+					print "guest found an opening in the back!"
+					restaurant.chefs[j].q.insert(i+1, current_guest)
+					if current_arrive <= front_wait:
+						current_guest.wait = front_wait + current_prep
+					else:
+						current_guest.wait = current_arrive
+					return current_guest.wait
 			# If the queue is anyone not the first or last person in the queue
 			elif i > 0 and i < (len(chef.q)-1):
 				back_wait = chef.q[i+1].wait
 				back_min = back_wait - chef.q[i+1].orders*chef.prep_time
 				if current_prep <= back_min and front_wait + current_prep <= back_min and current_arrive <= back_min:
-						# print "guest found an opening second in line with queue > 2!"
+						print "guest found an opening second in line with queue > 2!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
 						current_guest.wait = front_wait + current_prep
 						return current_guest.wait
 			# If the person is the last person in the queue and/or cannot find an opening in the queue
 			else:
-				# print "guest found an opening in the back!"
+				print "guest found an opening in the back!"
 				restaurant.chefs[j].q.insert(i+1, current_guest)
 				if current_arrive <= front_wait:
 					current_guest.wait = front_wait + current_prep
 				else:
 					current_guest.wait = current_arrive
 				return current_guest.wait
+
 
 def increment_interval(restaurant):
 	for i, chef in enumerate(restaurant.chefs):
@@ -88,7 +101,7 @@ def no_algorithm_time(future_guests, restaurant):
 	front = look_at_guests[0]
 	front.wait = front.arrive + front.orders * restaurant.prep_time
 	look_at_guests.pop(0)
-	print len(look_at_guests)
+	# print len(look_at_guests)
 
 	while look_at_guests:
 		focus = look_at_guests.pop(0)
@@ -103,50 +116,45 @@ def no_algorithm_time(future_guests, restaurant):
 
 def algorithm_time(future_guests, restaurant):
 	# Add the first guest to the chef queue
-	counter = 1
+	counter = 0
 	current_guest = future_guests[0]
 	future_guests.pop(0)
 	chef.q.append(current_guest)
 	current_guest.wait = current_guest.arrive
-	# print "\ncounter = ", counter
-	# print "NEW GUEST"
-	# print current_guest.name, current_guest.arrive, current_guest.wait
-	# print [k.name for k in chef.q]
-	# print [k.wait.seconds/60 for k in chef.q]
-
-
-	increment_interval(restaurant)
-	clean_up_chef_q(restaurant)
+	print "\ncounter = ", counter
+	print "NEW GUEST"
+	print "guests: ", [k.name for k in chef.q]
+	print "wait: ", [k.wait.seconds/60 for k in chef.q]
+	print "prep: ", [k.prep.seconds/60 for k in chef.q]
 
 	# Serve all the guests
 	while chef.q:
 		counter += 1
 
+		increment_interval(restaurant)
+		clean_up_chef_q(restaurant)
+
 		if future_guests:
 			current_guest = future_guests[0]
 
-			# print "\ncounter = ", counter
-			# print "NEW GUEST"
-			# print current_guest.name, current_guest.arrive, current_guest.wait
-			current_guest_wait = calc_guest_wait(current_guest, restaurant)
-			# print "calculated wait time =", current_guest_wait
-			# print [k.name for k in chef.q]
-			# print [k.wait.seconds/60 for k in chef.q]
-			# print [k.prep.seconds/60 for k in chef.q]
-
-			increment_interval(restaurant)
+			print "\ncounter = ", counter
+			print "NEW GUEST"
+			print current_guest.name, current_guest.arrive, current_guest.wait
+			current_guest.wait = calc_guest_wait(current_guest, restaurant)
+			print "calculated wait time =", current_guest.wait
+			print "guests: ", [k.name for k in chef.q]
+			print "wait: ", [k.wait.seconds/60 for k in chef.q]
+			print "prep: ", [k.prep.seconds/60 for k in chef.q]
 			clean_up_chef_q(restaurant)
 			future_guests.pop(0)
 		else:
-			# print "\ncounter = ", counter
-			# print "NO MORE"
-			# print [k.name for k in chef.q]
-			# print [k.wait.seconds/60 for k in chef.q]
-			# print [k.prep.seconds/60 for k in chef.q]
-			increment_interval(restaurant)
+			print "\ncounter = ", counter
+			print "NO MORE"
+			print "guests: ", [k.name for k in chef.q]
+			print "wait: ", [k.wait.seconds/60 for k in chef.q]
+			print "prep: ", [k.prep.seconds/60 for k in chef.q]
 			clean_up_chef_q(restaurant)
 
-	counter += 1
 	# print "\ncounter = ", counter
 	return counter
 
@@ -157,8 +165,15 @@ if __name__ == "__main__":
 	restaurant.chefs.append(chef)
 	copy_guests = []
 
-	future_guests = sg.create_guests(mode = 'case_1')
+	# future_guests = sg.create_guests(mode = 'case_1')
+	# future_guests = sg.create_guests(mode = 'case_2')
+	# future_guests = sg.create_guests(mode = 'case_3')
+	# future_guests = sg.create_guests(mode = 'case_4')
+	future_guests = sg.create_guests(n=5)
 	sg.copy_guests(future_guests, copy_guests)
+
+	print "guests: ", [g.name for g in future_guests]
+	print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
 
 	# Compare with the algorithm
 	alg_count = algorithm_time(future_guests, restaurant)
