@@ -11,15 +11,33 @@ def create_guests(mode = None, n = None):
 
 	if n != None:
 		d = dict.fromkeys(string.ascii_lowercase, 0)
-		etas = [np.random.randint(1,6) for i in range(n)]
+		etas = [np.random.randint(1,4) for i in range(n)]
 		names = [i for i in d]
-		orders = [np.random.randint(1,6) for i in range(n)]
+		orders = [np.random.randint(1,4) for i in range(n)]
 
 	# Pre-defined etas
 	if mode == 'case_1':
 		etas = [6, 3, 1, 5, 1]
 		names = ['a','b','c','d','e',]
 		orders = [2, 1, 1, 1, 1]
+		n = 5
+
+	if mode == 'case_2':
+		etas = [1, 3, 3, 2]
+		names = ['a','b','c','d']
+		orders = [2, 1, 1, 1]
+		n = 4
+
+	if mode == 'case_3':
+		etas = [3, 2, 3, 3, 1]
+		names = ['a','b','c','d','e']
+		orders = [1, 1, 1, 1, 1]
+		n = 5
+
+	if mode == 'case_4':
+		etas = [2, 2, 1, 1, 3]
+		names = ['a','b','c','d','e']
+		orders = [1, 1, 1, 1, 1]
 		n = 5
 
 	arrivals = []
