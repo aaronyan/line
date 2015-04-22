@@ -19,15 +19,13 @@ def calc_guest_wait(current_guest, restaurant):
 		# Check openings in chef queue
 		for i, guest in enumerate(chef.q):
 			front_wait = guest.wait
-			front_min = front_wait - guest.orders*chef.prep_time
 			current_arrive = current_guest.arrive
 			current_prep = current_guest.orders*chef.prep_time
-			print "checking guest",guest.name
 
 			# If the queue is only one person long or looking at the first person in the queue
 			if i == 0:
-				if current_prep <= front_min and current_arrive <= front_min:
-					print "guest found an opening in the front!"
+				if current_prep < front_wait and current_arrive < front_wait:
+					# print "guest found an opening in the front!"
 					restaurant.chefs[j].q.insert(i, current_guest)
 					current_guest.wait = current_guest.arrive
 					return current_guest.wait
