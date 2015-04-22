@@ -35,9 +35,21 @@ def create_guests(mode = None, n = None):
 		n = 5
 
 	if mode == 'case_4':
-		etas = [2, 2, 1, 1, 3]
+		etas = [3, 1, 2, 1, 3]
 		names = ['a','b','c','d','e']
-		orders = [1, 1, 1, 1, 1]
+		orders = [2, 3, 3, 1, 2]
+		n = 5
+
+	if mode == 'case_5':
+		etas = [2, 1, 1, 1, 2]
+		names = ['a','b','c','d','e']
+		orders = [1, 2, 1, 3, 2]
+		n = 5
+
+	if mode == 'case_6':
+		etas = [1, 1, 1, 2, 2]
+		names = ['a','b','c','d','e']
+		orders = [2, 3, 3, 3, 3]
 		n = 5
 
 	arrivals = []
