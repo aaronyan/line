@@ -2,6 +2,7 @@ from classes import chef, guest, restaurant
 import simulation_general as sg
 import datetime
 import numpy as np
+import pandas as pd
 
 # Caclulate guest wait time
 def calc_guest_wait(current_guest, restaurant):
@@ -167,27 +168,65 @@ def algorithm_time(future_guests, restaurant):
 if __name__ == "__main__":
 	
 
-	# Create restaurant, chef, and customer objects
-	restaurant = restaurant.Restaurant()
-	chef = chef.Chef(idn = "aaron")
-	restaurant.chefs.append(chef)
-	copy_guests = []
+	# # Create restaurant, chef, and customer objects
+	# restaurant = restaurant.Restaurant()
+	# chef = chef.Chef(idn = "aaron")
+	# restaurant.chefs.append(chef)
+	# copy_guests = []
 
-	# future_guests = sg.create_guests(mode = 'case_6')
-	future_guests = sg.create_guests(n=5)
-	sg.copy_guests(future_guests, copy_guests)
+	# # future_guests = sg.create_guests(mode = 'case_6')
+	# future_guests = sg.create_guests(n=5)
+	# sg.copy_guests(future_guests, copy_guests)
 
-	# print "guests: ", [g.name for g in future_guests]
-	# print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
-	# print "orders: ", [g.orders for g in future_guests]
+	# # print "guests: ", [g.name for g in future_guests]
+	# # print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
+	# # print "orders: ", [g.orders for g in future_guests]
 
-	# Compare with the algorithm
-	alg_count = algorithm_time(future_guests, restaurant)
+	# # Compare with the algorithm
+	# alg_count = algorithm_time(future_guests, restaurant)
 	
-	# Compare with the no_algorithm
-	no_alg_count = no_algorithm_time(copy_guests, restaurant)
+	# # Compare with the no_algorithm
+	# no_alg_count = no_algorithm_time(copy_guests, restaurant)
 
-	print alg_count
-	print no_alg_count
+	# print alg_count
+	# print no_alg_count
+
+	sim_num = 100000
+
+	data = {'alg':[0 for i in range(sim_num)],
+			'no_alg':[0 for i in range(sim_num)]}
+	data = pd.DataFrame(data)
+
+	for j in range(sim_num):
+		sample_n = np.random.randint(4,11)
+		rest = restaurant.Restaurant()
+		chf = chef.Chef(idn = "aaron")
+		rest.chefs.append(chf)
+		copy_guests = []
+
+		# future_guests = sg.create_guests(mode = 'case_6')
+		future_guests = sg.create_guests(n=sample_n)
+		sg.copy_guests(future_guests, copy_guests)
+
+		# Compare with the algorithm
+		alg_count = algorithm_time(future_guests, rest)
+
+		# Compare with the no_algorithm
+		no_alg_count = no_algorithm_time(copy_guests, rest)
+
+		data.loc[j,'alg'] = alg_count
+		data.loc[j,'no_alg'] = no_alg_count
+
+	data['diff'] = data['no_alg']-data['alg']
+	data['percent'] = data['diff']/data['no_alg']*100
+	print data
+	print data.mean()
+
+
+
+
+
+
+
 
 
