@@ -222,6 +222,8 @@ if __name__ == "__main__":
 	print data
 	print data.mean()
 
+	data.to_csv('alg_1c0t_sim.txt', sep='\t', header=False, index=False)
+
 
 
 
