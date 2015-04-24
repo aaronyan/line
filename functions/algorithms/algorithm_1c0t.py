@@ -121,7 +121,8 @@ def algorithm_time(future_guests, restaurant):
 	counter = 0
 	current_guest = future_guests[0]
 	future_guests.pop(0)
-	chef.q.append(current_guest)
+	chf = restaurant.chefs[0]
+	chf.q.append(current_guest)
 	if current_guest.arrive > current_guest.orders * restaurant.prep_time:
 		current_guest.wait = current_guest.arrive
 	else:
@@ -133,7 +134,7 @@ def algorithm_time(future_guests, restaurant):
 	# print "prep: ", [k.prep.seconds/60 for k in chef.q]
 
 	# Serve all the guests
-	while chef.q:
+	while chf.q:
 		counter += 1
 
 		increment_interval(restaurant)
