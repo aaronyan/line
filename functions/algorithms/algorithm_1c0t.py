@@ -29,6 +29,7 @@ def calc_guest_t2s(current_guest, restaurant):
 					# print "guest found an opening in the front!"
 					restaurant.chefs[j].q.insert(i, current_guest)
 					current_guest.t2s = current_guest.arrive
+					current_guest.wait = current_guest.t2s - current_guest.arrive
 					return current_guest.t2s
 					# If the queue is two people long
 				elif len(chef.q) != 1:
@@ -38,6 +39,7 @@ def calc_guest_t2s(current_guest, restaurant):
 						# print "guest found an opening second in line!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
 						current_guest.t2s = front_t2s + current_prep
+						current_guest.wait = current_guest.t2s - current_guest.arrive
 						return current_guest.t2s
 				else:
 					# print "guest found an opening in the back!"
@@ -46,6 +48,7 @@ def calc_guest_t2s(current_guest, restaurant):
 						current_guest.t2s = front_t2s + current_prep
 					else:
 						current_guest.t2s = current_arrive
+					current_guest.wait = current_guest.t2s - current_guest.arrive
 					return current_guest.t2s
 			# If the queue is anyone not the first or last person in the queue
 			elif i > 0 and i < (len(chef.q)-1):
@@ -55,6 +58,7 @@ def calc_guest_t2s(current_guest, restaurant):
 						# print "guest found an opening second in line with queue > 2!"
 						restaurant.chefs[j].q.insert(i+1, current_guest)
 						current_guest.t2s = front_t2s + current_prep
+						current_guest.wait = current_guest.t2s - current_guest.arrive
 						return current_guest.t2s
 			# If the person is the last person in the queue and/or cannot find an opening in the queue
 			else:
@@ -64,6 +68,7 @@ def calc_guest_t2s(current_guest, restaurant):
 					current_guest.t2s = front_t2s + current_prep
 				else:
 					current_guest.t2s = current_arrive
+				current_guest.wait = current_guest.t2s - current_guest.arrive
 				return current_guest.t2s
 
 
