@@ -93,6 +93,9 @@ def clean_up_chef_q(restaurant):
 
 def no_algorithm_time(future_guests, restaurant):
 	
+	out = {}
+	copy_of_guests = [g for g in future_guests]
+
 	# add minutes to t2s time to normalize based on index
 	for i, guest in enumerate(future_guests):
 		guest.arrive = guest.arrive + datetime.timedelta(minutes=i)
@@ -114,17 +117,30 @@ def no_algorithm_time(future_guests, restaurant):
 		else:
 			focus.t2s = front.t2s + focus.prep
 
+		focus.wait = focus.t2s - focus.arrive
 		front = focus
+
+	# Sum up the waited time for each customer
+	wait_sum = datetime.timedelta(minutes=0)
+	for g in copy_of_guests:
+		wait_sum += g.wait
+	wait_avg_tv = wait_sum/len(copy_of_guests)
+	wait_avg = wait_avg_tv.seconds/60
+
+	out['rest_time_finish'] = future_guests[-1].t2s.seconds/60
+	out['guest_wait_avg'] = wait_avg
 
 	# print [g.arrive.seconds/60 for g in future_guests]
 	# print [g.orders for g in future_guests]
 	# print [g.t2s.seconds/60 for g in future_guests]
 
-	return future_guests[-1].t2s.seconds/60
+	return out
 
 def algorithm_time(future_guests, restaurant):
 	# Add the first guest to the chef queue
-	counter = 0
+	out = {}
+	rest_counter = 0
+	copy_of_guests = [g for g in future_guests]
 	current_guest = future_guests[0]
 	future_guests.pop(0)
 	chf = restaurant.chefs[0]
