@@ -149,7 +149,7 @@ def algorithm_time(future_guests, restaurant):
 		current_guest.t2s = current_guest.arrive
 	else:
 		current_guest.t2s = current_guest.orders * restaurant.prep_time
-	# print "\ncounter = ", counter
+	# print "\ncounter = ", rest_counter
 	# print "NEW GUEST"
 	# print "guests: ", [k.name for k in chef.q]
 	# print "t2s: ", [k.t2s.seconds/60 for k in chef.q]
@@ -157,7 +157,7 @@ def algorithm_time(future_guests, restaurant):
 
 	# Serve all the guests
 	while chf.q:
-		counter += 1
+		rest_counter += 1
 
 		increment_interval(restaurant)
 		clean_up_chef_q(restaurant)
@@ -165,7 +165,7 @@ def algorithm_time(future_guests, restaurant):
 		if future_guests:
 			current_guest = future_guests[0]
 
-			# print "\ncounter = ", counter
+			# print "\ncounter = ", rest_counter
 			# print "NEW GUEST"
 			# print current_guest.name, current_guest.arrive, current_guest.orders
 			current_guest.t2s = calc_guest_t2s(current_guest, restaurant)
@@ -176,15 +176,26 @@ def algorithm_time(future_guests, restaurant):
 			clean_up_chef_q(restaurant)
 			future_guests.pop(0)
 		else:
-			# print "\ncounter = ", counter
+			# print "\ncounter = ", rest_counter
 			# print "NO MORE"
 			# print "guests: ", [k.name for k in chef.q]
 			# print "t2s: ", [k.t2s.seconds/60 for k in chef.q]
 			# print "prep: ", [k.prep.seconds/60 for k in chef.q]
 			clean_up_chef_q(restaurant)
 
-	# print "\ncounter = ", counter
-	return counter
+
+	# Sum up the waited time for each customer
+	wait_sum = datetime.timedelta(minutes=0)
+	for g in copy_of_guests:
+		wait_sum += g.wait
+	wait_avg = wait_sum/len(copy_of_guests)
+	wait_avg = wait_avg.seconds/60
+
+	out['rest_time_finish'] = rest_counter
+	out['guest_wait_avg'] = wait_avg
+
+	# print "\ncounter = ", rest_counter
+	return out
 
 if __name__ == "__main__":
 	
