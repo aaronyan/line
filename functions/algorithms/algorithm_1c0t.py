@@ -224,7 +224,7 @@ if __name__ == "__main__":
 	# print no_alg_count
 
 	sim_num = 20
-	sample_num = 100
+	sample_num = 10000
 	data = pd.DataFrame()
 
 	for i in range(sim_num):
