@@ -241,22 +241,32 @@ if __name__ == "__main__":
 			sg.copy_guests(future_guests, copy_guests)
 
 			# Compare with the algorithm
-			alg_count = algorithm_time(future_guests, rest)
+			alg_out = algorithm_time(future_guests, rest)
 
 			# Compare with the no_algorithm
-			no_alg_count = no_algorithm_time(copy_guests, rest)
+			no_alg_out = no_algorithm_time(copy_guests, rest)
 
-			alg_col = 'alg'+str(i)
-			no_alg_col ='no_alg'+str(i)
-			diff_col = 'diff'+str(i)
-			percent_col = 'percent'+str(i)
+			alg_col = 'alg_rest'+str(i)
+			no_alg_col ='no_alg_rest'+str(i)
+			rest_diff_col = 'rest_diff'+str(i)
+			rest_percent_col = 'rest_diff_percent'+str(i)
 
-			data.loc[j,alg_col] = alg_count
-			data.loc[j,no_alg_col] = no_alg_count
+			alg_guest_avg_col = 'alg_guest_wait_avg'+str(i)
+			no_alg_guest_avg_col = 'no_alg_guest_wait_avg'+str(i)
+			guest_diff_col = 'guest_diff'+str(i)
+			guest_percent_col = 'guest_diff_percent'+str(i)
 
-		data[diff_col] = data[no_alg_col]-data[alg_col]
-		data[percent_col] = data[diff_col]/data[no_alg_col]*100
+			data.loc[j,alg_col] = alg_out['rest_time_finish']
+			data.loc[j,no_alg_col] = no_alg_out['rest_time_finish']
 
+			data.loc[j,alg_guest_avg_col] = alg_out['guest_wait_avg']
+			data.loc[j,no_alg_guest_avg_col] = no_alg_out['guest_wait_avg']
+
+		data[rest_diff_col] = data[no_alg_col]-data[alg_col]
+		data[rest_percent_col] = data[rest_diff_col]/data[no_alg_col]*100
+
+		data[guest_diff_col] = data[no_alg_guest_avg_col]-data[alg_guest_avg_col]
+		data[guest_percent_col] = data[guest_diff_col]/data[no_alg_guest_avg_col]*100
 
 	data.to_csv('alg_1c0t_sim.txt', sep='\t', header=True, index=False)
 
