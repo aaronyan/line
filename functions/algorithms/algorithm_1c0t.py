@@ -283,6 +283,13 @@ if __name__ == "__main__":
 
 	print rest_wait_avgs
 
+	guest_wait_avgs = []
+
+	for i in range(sim_num):
+		guest_case_avg = data.iloc[:,7+i*8].sum()/len(data.index)
+		guest_wait_avgs.append(guest_case_avg)
+
+	print guest_wait_avgs
 
 
 
