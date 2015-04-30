@@ -224,7 +224,7 @@ if __name__ == "__main__":
 	# print no_alg_count
 
 	sim_num = 20
-	sample_num = 10000
+	sample_num = 100
 	data = pd.DataFrame()
 
 	for i in range(sim_num):
@@ -269,6 +269,24 @@ if __name__ == "__main__":
 		data[guest_percent_col] = data[guest_diff_col]/data[no_alg_guest_avg_col]*100
 
 	data.to_csv('alg_1c0t_sim.txt', sep='\t', header=True, index=False)
+
+	pd.set_option('display.width', 99999)
+	pd.set_option('display.max_rows', 400)
+
+	data = pd.read_csv('alg_1c0t_sim.txt', sep = '\t')
+
+	rest_wait_avgs = []
+
+	for i in range(sim_num):
+		rest_case_avg = data.iloc[:,5+i*8].sum()/len(data.index)
+		rest_wait_avgs.append(rest_case_avg)
+
+	print rest_wait_avgs
+
+
+
+
+
 
 
 
