@@ -276,20 +276,19 @@ if __name__ == "__main__":
 	data = pd.read_csv('alg_1c0t_sim.txt', sep = '\t')
 
 	rest_wait_avgs = []
+	guest_wait_avgs = []
 
 	for i in range(sim_num):
 		rest_case_avg = data.iloc[:,5+i*8].sum()/len(data.index)
 		rest_wait_avgs.append(rest_case_avg)
-
-	print rest_wait_avgs
-
-	guest_wait_avgs = []
-
-	for i in range(sim_num):
 		guest_case_avg = data.iloc[:,7+i*8].sum()/len(data.index)
 		guest_wait_avgs.append(guest_case_avg)
 
+	print rest_wait_avgs
 	print guest_wait_avgs
+		
+
+	
 
 
 
