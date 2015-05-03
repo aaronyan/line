@@ -197,34 +197,7 @@ def algorithm_time(future_guests, restaurant):
 	# print "\ncounter = ", rest_counter
 	return out
 
-if __name__ == "__main__":
-	
-
-	# # Create restaurant, chef, and customer objects
-	# restaurant = restaurant.Restaurant()
-	# chef = chef.Chef(idn = "aaron")
-	# restaurant.chefs.append(chef)
-	# copy_guests = []
-
-	# # future_guests = sg.create_guests(mode = 'case_6')
-	# future_guests = sg.create_guests(n=5)
-	# sg.copy_guests(future_guests, copy_guests)
-
-	# # print "guests: ", [g.name for g in future_guests]
-	# # print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
-	# # print "orders: ", [g.orders for g in future_guests]
-
-	# # Compare with the algorithm
-	# alg_count = algorithm_time(future_guests, restaurant)
-	
-	# # Compare with the no_algorithm
-	# no_alg_count = no_algorithm_time(copy_guests, restaurant)
-
-	# print alg_count
-	# print no_alg_count
-
-	sim_num = 20
-	sample_num = 100
+def simulate_basic(sim_num, sample_num):
 	data = pd.DataFrame()
 
 	for i in range(sim_num):
@@ -270,22 +243,56 @@ if __name__ == "__main__":
 
 	data.to_csv('alg_1c0t_sim.txt', sep='\t', header=True, index=False)
 
-	pd.set_option('display.width', 99999)
-	pd.set_option('display.max_rows', 400)
+if __name__ == "__main__":
+	
 
-	data = pd.read_csv('alg_1c0t_sim.txt', sep = '\t')
+	# # Create restaurant, chef, and customer objects
+	# restaurant = restaurant.Restaurant()
+	# chef = chef.Chef(idn = "aaron")
+	# restaurant.chefs.append(chef)
+	# copy_guests = []
 
-	rest_wait_avgs = []
-	guest_wait_avgs = []
+	# # future_guests = sg.create_guests(mode = 'case_6')
+	# future_guests = sg.create_guests(n=5)
+	# sg.copy_guests(future_guests, copy_guests)
 
-	for i in range(sim_num):
-		rest_case_avg = data.iloc[:,5+i*8].sum()/len(data.index)
-		rest_wait_avgs.append(rest_case_avg)
-		guest_case_avg = data.iloc[:,7+i*8].sum()/len(data.index)
-		guest_wait_avgs.append(guest_case_avg)
+	# # print "guests: ", [g.name for g in future_guests]
+	# # print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
+	# # print "orders: ", [g.orders for g in future_guests]
 
-	print rest_wait_avgs
-	print guest_wait_avgs
+	# # Compare with the algorithm
+	# alg_count = algorithm_time(future_guests, restaurant)
+	
+	# # Compare with the no_algorithm
+	# no_alg_count = no_algorithm_time(copy_guests, restaurant)
+
+	# print alg_count
+	# print no_alg_count
+
+
+	sim_num = 20
+	sample_num = 100
+	simulate_basic(sim_num, sample_num)
+
+	
+	
+
+	# pd.set_option('display.width', 99999)
+	# pd.set_option('display.max_rows', 400)
+
+	# data = pd.read_csv('alg_1c0t_sim.txt', sep = '\t')
+
+	# rest_wait_avgs = []
+	# guest_wait_avgs = []
+
+	# for i in range(sim_num):
+	# 	rest_case_avg = data.iloc[:,5+i*8].sum()/len(data.index)
+	# 	rest_wait_avgs.append(rest_case_avg)
+	# 	guest_case_avg = data.iloc[:,7+i*8].sum()/len(data.index)
+	# 	guest_wait_avgs.append(guest_case_avg)
+
+	# print rest_wait_avgs
+	# print guest_wait_avgs
 		
 
 	

@@ -2,6 +2,7 @@ import datetime
 from classes.guest import Guest
 import string
 import numpy as np
+import pandas as pd
 
 '''
 TEST FUNCTIONS
