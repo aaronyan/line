@@ -8,13 +8,13 @@ import pandas as pd
 TEST FUNCTIONS
 '''
 
-def create_guests(mode = None, n = None):
+def create_guests(mode = None, n = None, eta_max = None, order_max = None):
 
-	if n != None:
+	if n != None and order_max != None and eta_max != None:
 		d = dict.fromkeys(string.ascii_lowercase, 0)
-		etas = [np.random.randint(1,4) for i in range(n)]
+		etas = [np.random.randint(1,eta_max) for i in range(n)]
 		names = [i for i in d]
-		orders = [np.random.randint(1,4) for i in range(n)]
+		orders = [np.random.randint(1,order_max) for i in range(n)]
 
 	# Pre-defined etas
 	if mode == 'case_1':
