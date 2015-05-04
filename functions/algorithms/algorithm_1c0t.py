@@ -197,7 +197,7 @@ def algorithm_time(future_guests, restaurant):
 	# print "\ncounter = ", rest_counter
 	return out
 
-def simulate_basic(sim_num, sample_num, file_name):
+def simulate_basic_size(sim_num, sample_num, file_name):
 	data = pd.DataFrame()
 
 	for i in range(sim_num):
@@ -292,7 +292,7 @@ if __name__ == "__main__":
 	sim_num = 20
 	sample_num = 100
 	file_name = 'alg_1c0t_sim.txt'
-	simulate_basic(sim_num, sample_num, file_name)
+	simulate_basic_size(sim_num, sample_num, file_name)
 	summarize_results(file_name)
 
 
