@@ -210,7 +210,7 @@ def simulate_basic_max_cust_size(sim_num, sample_num, file_name):
 			copy_guests = []
 
 			# future_guests = sg.create_guests(mode = 'case_6')
-			future_guests = sg.create_guests(n=sample_n, eta_max=4, order_max=4)
+			future_guests = sg.create_guests(n=sample_n, p_eta=4, p_order=4)
 			sg.copy_guests(future_guests, copy_guests)
 
 			# Compare with the algorithm
@@ -262,7 +262,8 @@ def summarize_results_basic_size(file_name):
 	print guest_wait_avgs
 
 
-def simulate_basic_max_cust_size
+def simulate_basic_avg_guest_eta(sample_num, p_eta, p_order):
+	pass
 
 if __name__ == "__main__":
 
@@ -294,6 +295,11 @@ if __name__ == "__main__":
 	file_name = 'alg_1c0t_sim.txt'
 	simulate_basic_max_cust_size(sim_num, sample_num, file_name)
 	summarize_results_basic_size(file_name)
+
+	sample_num = 100
+	eta_max = 4
+	order_max = 4
+	simulate_basic_max_cust_size(sample_num, p_eta, p_order)
 
 
 	
