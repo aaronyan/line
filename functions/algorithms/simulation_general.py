@@ -10,7 +10,7 @@ TEST FUNCTIONS
 
 def create_guests(mode = None, n = None, p_eta = None, p_order = None):
 
-	if n != None and order_max != None and eta_max != None:
+	if n != None and p_eta != None and p_order != None:
 		d = dict.fromkeys(string.ascii_lowercase, 0)
 		etas = [np.random.poisson(p_eta) for i in range(n)]
 		names = [i for i in d]
