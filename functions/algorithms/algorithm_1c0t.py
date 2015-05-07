@@ -262,8 +262,9 @@ def summarize_results_basic_size(file_name):
 	print guest_wait_avgs
 
 
-def simulate_basic_avg_guest_eta(sample_num, p_eta, p_order):
+def simulate_basic_max_cust_size(sim_num, sample_num, p_eta, file_name):
 	pass
+
 
 if __name__ == "__main__":
 
@@ -296,10 +297,10 @@ if __name__ == "__main__":
 	simulate_basic_max_cust_size(sim_num, sample_num, file_name)
 	summarize_results_basic_size(file_name)
 
+	sim_num = 20
 	sample_num = 100
 	eta_max = 4
-	order_max = 4
-	simulate_basic_max_cust_size(sample_num, p_eta, p_order)
+	simulate_basic_max_cust_size(sim_num, sample_num, p_eta, file_name)
 
 
 	
