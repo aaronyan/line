@@ -262,8 +262,53 @@ def summarize_results_basic_size(file_name):
 	print guest_wait_avgs
 
 
-def simulate_basic_max_cust_size(sim_num, sample_num, p_eta, file_name):
-	pass
+def simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name):
+	data = pd.DataFrame()
+
+	sim_num = int(eta_max/.1)
+
+	for i in range(sim_num):
+
+		for j in range(sample_num):
+			sample_eta = .1 + .1*sim_num
+			rest = restaurant.Restaurant()
+			chf = chef.Chef(idn = "aaron")
+			rest.chefs.append(chf)
+			copy_guests = []
+
+			future_guests = sg.create_guests(n=sample_num, p_eta=sample_eta, p_order=4)
+			sg.copy_guests(future_guests, copy_guests)
+
+			# Compare with the algorithm
+			alg_out = algorithm_time(future_guests, rest)
+
+			# Compare with the no_algorithm
+			no_alg_out = no_algorithm_time(copy_guests, rest)
+
+			alg_col = 'alg_rest'+str(i)
+			no_alg_col ='no_alg_rest'+str(i)
+			rest_diff_col = 'rest_diff'+str(i)
+			rest_percent_col = 'rest_diff_percent'+str(i)
+
+			alg_guest_avg_col = 'alg_guest_wait_avg'+str(i)
+			no_alg_guest_avg_col = 'no_alg_guest_wait_avg'+str(i)
+			guest_diff_col = 'guest_diff'+str(i)
+			guest_percent_col = 'guest_diff_percent'+str(i)
+
+			data.loc[j,alg_col] = alg_out['rest_time_finish']
+			data.loc[j,no_alg_col] = no_alg_out['rest_time_finish']
+
+			data.loc[j,alg_guest_avg_col] = alg_out['guest_wait_avg']
+			data.loc[j,no_alg_guest_avg_col] = no_alg_out['guest_wait_avg']
+
+		data[rest_diff_col] = data[no_alg_col]-data[alg_col]
+		data[rest_percent_col] = data[rest_diff_col]/data[no_alg_col]*100
+
+		data[guest_diff_col] = data[no_alg_guest_avg_col]-data[alg_guest_avg_col]
+		data[guest_percent_col] = data[guest_diff_col]/data[no_alg_guest_avg_col]*100
+
+	data.to_csv(file_name, sep='\t', header=True, index=False)
+
 
 
 if __name__ == "__main__":
