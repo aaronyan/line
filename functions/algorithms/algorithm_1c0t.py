@@ -291,16 +291,17 @@ if __name__ == "__main__":
 	# print alg_count
 	# print no_alg_count
 
-	sim_num = 20
-	sample_num = 100
-	file_name = 'alg_1c0t_sim.txt'
-	simulate_basic_max_cust_size(sim_num, sample_num, file_name)
-	summarize_results_basic_size(file_name)
+	# sim_num = 20
+	# sample_num = 100
+	# file_name = 'alg_1c0t_sim.txt'
+	# simulate_basic_max_cust_size(sim_num, sample_num, file_name)
+	# summarize_results_basic_size(file_name)
 
-	sim_num = 20
-	sample_num = 100
-	eta_max = 4
-	simulate_basic_max_cust_size(sim_num, sample_num, p_eta, file_name)
+	sample_num = 20
+	eta_max = 1
+	max_cust = 25
+	file_name = 'alg_1c0t_sim.txt'
+	simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name)
 
 
 	
