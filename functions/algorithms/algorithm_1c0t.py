@@ -243,11 +243,12 @@ def simulate_basic_max_cust_size(sim_num, sample_num, file_name):
 
 	data.to_csv(file_name, sep='\t', header=True, index=False)
 
-def summarize_results_basic_size(file_name):
+def summarize_results_basic_size(sim_num, file_name):
 	pd.set_option('display.width', 99999)
 	pd.set_option('display.max_rows', 400)
 
 	data = pd.read_csv(file_name, sep = '\t')
+	data_summarize = pd.DataFrame()
 
 	rest_wait_avgs = []
 	guest_wait_avgs = []
@@ -343,11 +344,12 @@ if __name__ == "__main__":
 	# summarize_results_basic_size(file_name)
 
 	sample_num = 500
-	eta_max = 1
+	eta_max = 30
 	max_cust = 20
+	sim_num = int(eta_max/1)
 	file_name = 'alg_1c0t_sim.txt'
 	simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name)
-	# summarize_results_basic_size(file_name)
+	# summarize_results_basic_size(sim_num, file_name)
 
 
 	
