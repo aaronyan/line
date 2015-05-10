@@ -276,7 +276,7 @@ def simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name):
 			rest.chefs.append(chf)
 			copy_guests = []
 
-			future_guests = sg.create_guests(n=sample_num, p_eta=sample_eta, p_order=4)
+			future_guests = sg.create_guests(n=max_cust, p_eta=sample_eta, p_order=4)
 			sg.copy_guests(future_guests, copy_guests)
 
 			# Compare with the algorithm
@@ -342,11 +342,12 @@ if __name__ == "__main__":
 	# simulate_basic_max_cust_size(sim_num, sample_num, file_name)
 	# summarize_results_basic_size(file_name)
 
-	sample_num = 20
+	sample_num = 500
 	eta_max = 1
-	max_cust = 25
+	max_cust = 20
 	file_name = 'alg_1c0t_sim.txt'
 	simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name)
+	# summarize_results_basic_size(file_name)
 
 
 	
