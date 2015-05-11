@@ -259,6 +259,13 @@ def summarize_results_basic_size(sim_num, file_name):
 		guest_case_avg = data.iloc[:,7+i*8].sum()/len(data.index)
 		guest_wait_avgs.append(guest_case_avg)
 
+	data_summarize['rest_wait_avgs'] = rest_wait_avgs
+	data_summarize['guest_wait_avgs'] = guest_wait_avgs
+
+	summarize_file_name = "sim_summarize.txt"
+
+	data_summarize.to_csv(summarize_file_name, sep='\t', header=True, index=False)
+
 	print rest_wait_avgs
 	print guest_wait_avgs
 
