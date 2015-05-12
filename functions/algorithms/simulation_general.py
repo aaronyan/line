@@ -18,40 +18,10 @@ def create_guests(mode = None, n = None, p_eta = None, p_order = None):
 
 	# Pre-defined etas
 	if mode == 'case_1':
-		etas = [6, 3, 1, 5, 1]
-		names = ['a','b','c','d','e',]
-		orders = [2, 1, 1, 1, 1]
-		n = 5
-
-	if mode == 'case_2':
-		etas = [1, 3, 3, 2]
-		names = ['a','b','c','d']
-		orders = [2, 1, 1, 1]
-		n = 4
-
-	if mode == 'case_3':
-		etas = [3, 2, 3, 3, 1]
-		names = ['a','b','c','d','e']
-		orders = [1, 1, 1, 1, 1]
-		n = 5
-
-	if mode == 'case_4':
-		etas = [3, 1, 2, 1, 3]
-		names = ['a','b','c','d','e']
-		orders = [2, 3, 3, 1, 2]
-		n = 5
-
-	if mode == 'case_5':
-		etas = [2, 1, 1, 1, 2]
-		names = ['a','b','c','d','e']
-		orders = [1, 2, 1, 3, 2]
-		n = 5
-
-	if mode == 'case_6':
-		etas = [1, 1, 1, 2, 2]
-		names = ['a','b','c','d','e']
-		orders = [2, 3, 3, 3, 3]
-		n = 5
+		etas = [6, 2, 5, 1, 4, 7]
+		names = ['a','b','c','d','e','f']
+		orders = [1, 10, 4, 4, 2, 3]
+		n = 6
 
 	arrivals = []
 	for i in range(n):
