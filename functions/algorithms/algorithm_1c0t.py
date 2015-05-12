@@ -273,10 +273,10 @@ def summarize_results_basic_size(sim_num, file_name):
 def simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name):
 	data = pd.DataFrame()
 
-	sim_num = int(eta_max/.1)
+	sim_num = int(eta_max/1)
 
 	for i in range(sim_num):
-
+		print i
 		for j in range(sample_num):
 			sample_eta = .1 + .1*sim_num
 			rest = restaurant.Restaurant()
