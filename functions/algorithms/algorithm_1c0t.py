@@ -107,6 +107,7 @@ def no_algorithm_time(future_guests, restaurant):
 	look_at_guests = [g for g in future_guests]
 	front = look_at_guests.pop(0)
 	front.t2s = front.arrive + front.orders * restaurant.prep_time
+	front.wait = front.t2s - front.arrive
 
 	while look_at_guests:
 		focus = look_at_guests.pop(0)
