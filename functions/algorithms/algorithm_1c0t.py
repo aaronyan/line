@@ -125,15 +125,17 @@ def no_algorithm_time(future_guests, restaurant):
 	wait_sum = datetime.timedelta(minutes=0)
 	for g in copy_of_guests:
 		wait_sum += g.wait
-	wait_avg_tv = wait_sum/len(copy_of_guests)
-	wait_avg = wait_avg_tv.seconds/60
+	wait_avg_tv = float(wait_sum.seconds)/len(copy_of_guests)
+	wait_avg = float(wait_avg_tv)/60
 
 	out['rest_time_finish'] = future_guests[-1].t2s.seconds/60
 	out['guest_wait_avg'] = wait_avg
 
-	# print [g.arrive.seconds/60 for g in future_guests]
-	# print [g.orders for g in future_guests]
-	# print [g.t2s.seconds/60 for g in future_guests]
+	print "names:   ", [g.name for g in future_guests]
+	print "arrives: ", [g.arrive.seconds/60 for g in future_guests]
+	print "orders:  ", [g.orders for g in future_guests]
+	print "t2s:     ", [g.t2s.seconds/60 for g in future_guests]
+	print "wait:    ", [g.wait.seconds/60 for g in future_guests]
 
 	return out
 
