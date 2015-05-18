@@ -33,6 +33,10 @@ def create_guests(mode = None, n = None, p_eta = None, p_order = None):
 		new_guest.orders = orders[i]
 		new_guest.prep = datetime.timedelta(minutes=orders[i]*1)
 		arrivals.append(new_guest)
+
+	if arrivals[0].arrive.seconds == 0:
+		arrivals[0].arrive = datetime.timedelta(minutes=1)
+
 	return arrivals
 
 def copy_guests(A, B):
