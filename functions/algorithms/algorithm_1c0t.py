@@ -144,19 +144,19 @@ def algorithm_time(future_guests, restaurant):
 	out = {}
 	rest_counter = 0
 	copy_of_guests = [g for g in future_guests]
-	current_guest = future_guests[0]
-	future_guests.pop(0)
+	current_guest = future_guests.pop(0)
 	chf = restaurant.chefs[0]
 	chf.q.append(current_guest)
+
 	if current_guest.arrive > current_guest.orders * restaurant.prep_time:
 		current_guest.t2s = current_guest.arrive
 	else:
 		current_guest.t2s = current_guest.orders * restaurant.prep_time
-	# print "\ncounter = ", rest_counter
-	# print "NEW GUEST"
-	# print "guests: ", [k.name for k in chef.q]
-	# print "t2s: ", [k.t2s.seconds/60 for k in chef.q]
-	# print "prep: ", [k.prep.seconds/60 for k in chef.q]
+	print "\ncounter = ", rest_counter
+	print "NEW GUEST"
+	print "guests: ", [k.name for k in chf.q]
+	print "t2s: ", [k.t2s.seconds/60 for k in chf.q]
+	print "prep: ", [k.prep.seconds/60 for k in chf.q]
 
 	# Serve all the guests
 	while chf.q:
