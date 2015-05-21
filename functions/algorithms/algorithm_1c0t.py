@@ -211,17 +211,23 @@ def simulate_basic_max_cust_size(sim_num, sample_num, file_name):
 	data = pd.DataFrame()
 
 	for i in range(sim_num):
-
+		print i
+		diff = 0
+		diff2 = 0
 		for j in range(sample_num):
 			sample_n = i + 3
 			rest = restaurant.Restaurant()
 			chf = chef.Chef(idn = "aaron")
 			rest.chefs.append(chf)
 			copy_guests = []
+			copycopy_guests = []
 
 			# future_guests = sg.create_guests(mode = 'case_6')
 			future_guests = sg.create_guests(n=sample_n, p_eta=4, p_order=4)
 			sg.copy_guests(future_guests, copy_guests)
+			sg.copy_guests(future_guests, copycopy_guests)
+			# print "future guests: ", [k.name for k in future_guests]
+			# print "future guests arrives: ", [k.arrive.seconds/60 for k in future_guests]
 
 			# Compare with the algorithm
 			alg_out = algorithm_time(future_guests, rest)
@@ -244,6 +250,14 @@ def simulate_basic_max_cust_size(sim_num, sample_num, file_name):
 
 			data.loc[j,alg_guest_avg_col] = alg_out['guest_wait_avg']
 			data.loc[j,no_alg_guest_avg_col] = no_alg_out['guest_wait_avg']
+
+			diff = no_alg_out['rest_time_finish'] - alg_out['rest_time_finish']
+			diff2 = no_alg_out['guest_wait_avg'] - alg_out['guest_wait_avg']
+			if diff < 0 or diff2 < 0:
+				print "future guests: ", [k.name for k in copycopy_guests]
+				print "future guests arrives: ", [k.arrive.seconds/60 for k in copycopy_guests]
+				print "future guests orders: ", [k.orders for k in copycopy_guests]
+				break
 
 		data[rest_diff_col] = data[no_alg_col]-data[alg_col]
 		data[rest_percent_col] = data[rest_diff_col]/data[no_alg_col]*100
