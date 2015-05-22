@@ -168,22 +168,22 @@ def algorithm_time(future_guests, restaurant):
 		if future_guests:
 			current_guest = future_guests[0]
 
-			# print "\ncounter = ", rest_counter
-			# print "NEW GUEST"
-			# print current_guest.name, current_guest.arrive, current_guest.orders
+			print "\ncounter = ", rest_counter
+			print "NEW GUEST"
+			print current_guest.name, current_guest.arrive, current_guest.orders
 			current_guest.t2s = calc_guest_t2s(current_guest, restaurant)
-			# print "calculated t2s time =", current_guest.t2s
-			# print "guests: ", [k.name for k in chef.q]
-			# print "t2s: ", [k.t2s.seconds/60 for k in chef.q]
-			# print "prep: ", [k.prep.seconds/60 for k in chef.q]
+			print "calculated t2s time =", current_guest.t2s
+			print "guests: ", [k.name for k in chf.q]
+			print "t2s: ", [k.t2s.seconds/60 for k in chf.q]
+			print "prep: ", [k.prep.seconds/60 for k in chf.q]
 			clean_up_chef_q(restaurant)
 			future_guests.pop(0)
 		else:
-			# print "\ncounter = ", rest_counter
-			# print "NO MORE"
-			# print "guests: ", [k.name for k in chef.q]
-			# print "t2s: ", [k.t2s.seconds/60 for k in chef.q]
-			# print "prep: ", [k.prep.seconds/60 for k in chef.q]
+			print "\ncounter = ", rest_counter
+			print "NO MORE"
+			print "guests: ", [k.name for k in chf.q]
+			print "t2s: ", [k.t2s.seconds/60 for k in chf.q]
+			print "prep: ", [k.prep.seconds/60 for k in chf.q]
 			clean_up_chef_q(restaurant)
 
 
@@ -294,7 +294,7 @@ def summarize_results_basic_size(sim_num, file_name):
 	print guest_wait_avgs
 
 
-def simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name):
+def simulate_basic_max_eta(eta_max, sample_num, max_cust, file_name):
 	data = pd.DataFrame()
 
 	sim_num = int(eta_max/1)
@@ -345,41 +345,41 @@ def simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name):
 
 if __name__ == "__main__":
 
-	# # Create restaurant, chef, and customer objects
-	# restaurant = restaurant.Restaurant()
-	# chef = chef.Chef(idn = "aaron")
-	# restaurant.chefs.append(chef)
-	# copy_guests = []
+	# Create restaurant, chef, and customer objects
+	restaurant = restaurant.Restaurant()
+	chef = chef.Chef(idn = "aaron")
+	restaurant.chefs.append(chef)
+	copy_guests = []
 
-	# # future_guests = sg.create_guests(mode = 'case_6')
+	future_guests = sg.create_guests(mode = 'case_1')
 	# future_guests = sg.create_guests(n=5)
-	# sg.copy_guests(future_guests, copy_guests)
+	sg.copy_guests(future_guests, copy_guests)
 
-	# # print "guests: ", [g.name for g in future_guests]
-	# # print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
-	# # print "orders: ", [g.orders for g in future_guests]
+	# print "guests: ", [g.name for g in future_guests]
+	# print "arrive: ", [g.arrive.seconds/60 for g in future_guests]
+	# print "orders: ", [g.orders for g in future_guests]
 
-	# # Compare with the algorithm
-	# alg_count = algorithm_time(future_guests, restaurant)
+	# Compare with the algorithm
+	alg_count = algorithm_time(future_guests, restaurant)
 	
-	# # Compare with the no_algorithm
-	# no_alg_count = no_algorithm_time(copy_guests, restaurant)
+	# Compare with the no_algorithm
+	no_alg_count = no_algorithm_time(copy_guests, restaurant)
 
-	# print alg_count
-	# print no_alg_count
+	print alg_count
+	print no_alg_count
 
 	# sim_num = 20
-	# sample_num = 100
-	# file_name = 'alg_1c0t_sim.txt'
+	# sample_num = 1000
+	# file_name = 'alg_1c0t_sim_guestsize.txt'
 	# simulate_basic_max_cust_size(sim_num, sample_num, file_name)
-	# summarize_results_basic_size(file_name)
+	# summarize_results_basic_size(sim_num, file_name)
 
-	sample_num = 500
-	eta_max = 30
-	max_cust = 20
-	sim_num = int(eta_max/1)
-	file_name = 'alg_1c0t_sim.txt'
-	simulate_basic_max_cust_size(eta_max, sample_num, max_cust, file_name)
+	# sample_num = 500
+	# eta_max = 30
+	# max_cust = 20
+	# sim_num = int(eta_max/1)
+	# file_name = 'alg_1c0t_sim.txt'
+	# simulate_basic_max_eta(eta_max, sample_num, max_cust, file_name)
 	# summarize_results_basic_size(sim_num, file_name)
 
 
